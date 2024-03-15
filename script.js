@@ -10,6 +10,7 @@ const opcao4 = document.getElementById('opcao4');
 const repeticao = document.getElementById('repeticao');
 const gerar = document.getElementById('gerar');
 const meuInput = document.getElementById('meuInput');
+const criarBarra = document.getElementById('criarBarra');
 
 const letraMaiuscula = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const letraMinuscula = 'abcdefghijklmnopqrstuvwxyz';
@@ -17,20 +18,20 @@ const numero = '0123456789';
 const caracteresEspeciais = '!@#$%&*()_+-=[]{}|;:,.<>?';
 var lista = '';
 
-slider.oninput = function() { // quando o slider for alterado, atualizará o valor do span
-  valSlider.innerHTML = this.value; // atualizando o valor do span
+slider.oninput = function() {
+  valSlider.innerHTML = this.value;
 }
 
 function verificarOpcoesMarcadas() {
   if (!(facil1.checked) && !(facil2.checked) && !(todos.checked)) {
-    gerar.disabled = true; // Se nenhuma opção está marcada, desabilita o botão "gerar"
+    gerar.disabled = true;
   } else {
-    gerar.disabled = false; // Caso contrário, habilita o botão "gerar"
+    gerar.disabled = false;
   }
 }
 verificarOpcoesMarcadas();
 
-facil1.onchange = function() { // se o checkbox estiver marcado
+facil1.onchange = function() {
   verificarOpcoesMarcadas();
   if (this.checked) {
     opcao1.checked = true
@@ -50,8 +51,8 @@ facil2.onchange = function() {
     opcao3.checked = true;
     opcao4.checked = false;
 
-    lista = letraMaiuscula.replace(/[IO]/g, "") + letraMinuscula.replace("l", "") + numero.replace(/1|0/g, ""); // removendo letras I e O usando regex g = global
-  }  //????
+    lista = letraMaiuscula.replace(/[IO]/g, "") + letraMinuscula.replace("l", "") + numero.replace(/1|0/g, "");
+  }
 }
 todos.onchange = function() {
   verificarOpcoesMarcadas();
@@ -67,25 +68,73 @@ todos.onchange = function() {
 
 
 
-function gerarSenha (lista) {
+function gerarSenha(lista) {
   let senha = "";
   let ultimoCaractere = "";
-  
-  for(i = 0; i < slider.value ; i++) {
-   let indice = Math.floor(Math.random() * lista.length); // pega um número aleatório e pega o caractere da lista 
+  for(i = 0; i < slider.value; i++) {
+    let indice = Math.floor(Math.random() * lista.length);
 
-    if(repeticao.checked) { // se a caixa de repetição estiver marcada
-      while(lista[indice] == ultimoCaractere) { //?
+    if(repeticao.checked) {
+      while (lista[indice] == ultimoCaractere) {
         indice = Math.floor(Math.random() * lista.length);
       }
     }
-    senha += lista[indice]; // pega o caractere da lista e adiciona na senha
-    ultimoCaractere = lista[indice]; // ultimo caractere vai o prox caractere 
+
+    senha += lista[indice];
+    ultimoCaractere = lista[indice];
   }
-  return senha; // retorna a senha
+
+  return senha;
 }
 
-gerar.onclick = function() { // ao clicar no botão
-  meuInput.value = gerarSenha(lista);  // pega a senha e coloca no input
+
+gerar.onclick = function() {
+  meuInput.value = gerarSenha(lista);
+  forcaSenha(gerarSenha(lista));
 }
 
+function forcaSenha(senha) {
+  let forca = '';
+  let tamanho = senha.length;
+  let cor;
+  
+  if(tamanho >= 8 & tamanho <= 11) {
+    forca = 10;
+  } else if(tamanho >= 12 & tamanho <= 15) {
+    forca = 20;
+  } else if(tamanho >= 16 & tamanho <= 20) {
+    forca = 30;
+  } else if (tamanho >= 21 & tamanho <= 25) {
+    forca = 40;
+  } else if (tamanho >= 26) {
+    forca = 50;
+  }
+  
+  if(/[A-Z]/.test(senha)) {
+    forca += 10;
+  }
+  if(/[a-z]/.test(senha)) {
+    forca += 10;
+   }
+  if(/\d/.test(senha)) {
+    forca += 10;
+  }
+  if (/[!@#$%&*()_+\-=\[\]{}|;:',.<>?/]/.test(senha)) {
+    forca += 10
+  }
+
+  if(repeticao.checked) {
+    forca += 10;
+  }
+
+  if(forca <= 24) {
+    cor = '#FF0000';
+  } else if (forca >= 25 && forca <= 49) {
+    cor = '#FFFF00';
+  } else if (forca >= 50 && forca <= 100) {
+    cor = '#00FF00';
+  }
+  criarBarra.innerHTML = `<div style="width: ${forca}%; background-color:${cor};height: 10px; border-radius:10px"></div>`
+  
+  return(forca);
+}
