@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de senha</title>
+</head>
+<body>
+    <input type="range" min="8" max="50" id="slider" value="8">
+    <span id="valSlider">8</span>
+  
+  <form>
+    <h2>Dificuldade:</h2>
+    <input type="radio" id="facil1" name="dificuldade" value="facil1">
+    <label for="facil1">Fácil de pronunciar</label>
+    <input type="radio" id="facil2" name="dificuldade" value="facil2">
+    <label for="facil2">Fácil de ler</label>
+    <input type="radio" id="todos" name="dificuldade" value="todos">
+    <label for="todos">Todos os caracteres</label> <br>
+  </form>
+
+  <form>
+    <h2>Opções:</h2>
+    <input type="checkbox" id="opcao1" name="opcoes" value="valor1" disabled>
+    <label for="opcao1">Letra maiúscula</label>
+    <input type="checkbox" id="opcao2" name="opcoes" value="valor2"disabled>
+    <label for="opcao2">Letra minúscula</label>
+    <input type="checkbox" id="opcao3" name="opcoes" value="valor3"disabled>
+    <label for="opcao3">Números</label>
+    <input type="checkbox" id="opcao4" name="opcoes" value="valor4" disabled>
+    <label for="opcao4">Símbolos</label><br>
+    </form>
+
+  <form>
+    <h2>Repetição:</h2>
+    <input type="checkbox" id="repeticao" name="repeticao-ativa" value="valor5">
+    <label for="repeticao">Repetir</label><br>
+  </form>
+  <h2>Categoria da sua senha:</h2>
+
+  <br>
+  <button id="gerar">Gerar Senha</button><br><br>
+  <input type="text" id="meuInput" readonly size="55">
+  <button id="copiar">Copiar</button>
+
+  <h2>Barra de progresso</h2>
+
+  <script src="script.js"></script>
+</body>
+</html>
